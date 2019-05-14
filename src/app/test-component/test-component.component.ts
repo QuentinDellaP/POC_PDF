@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { SkillGraduated, SkillsSheet, Skill } from '../models/skillsSheet';
 import { Person, PersonRole } from '../models/person';
@@ -14,7 +14,7 @@ import html2canvas from 'html2canvas';
   templateUrl: './test-component.component.html',
   styleUrls: ['./test-component.component.scss']
 })
-export class TestComponentComponent implements OnInit,AfterViewInit {
+export class TestComponentComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   versionsArray = new MatTableDataSource();
   lastModifDisplayedColumns: string[] = ['manager', 'date'];
@@ -65,19 +65,16 @@ export class TestComponentComponent implements OnInit,AfterViewInit {
   //Name of the skillsSheet
   nameSkillsSheet: string;
 
-  //picture
-  picture = false; 
-
   @ViewChild('headerHost', { read: ViewContainerRef }) entry: ViewContainerRef;
   componentRef: any ;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver){
-    let formItemsJSON = require('../resources/formItems.json');
-    this.formItems = formItemsJSON["candidateFormItems"];
   }
 
   ngAfterViewInit(){
-    this.createPDF() ; 
+  }
+
+  ngOnDestroy(){
   }
 
   createPDF(){
@@ -90,19 +87,17 @@ export class TestComponentComponent implements OnInit,AfterViewInit {
         var heightLeft = imgHeight;  
     
         const contentDataURL = canvas.toDataURL('image/png')  
-        let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+        let pdf = new jspdf('landscape', undefined, 'a4'); // A4 size page of PDF  
         var position = 0;  
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
+        pdf.addImage(contentDataURL, 'PNG', 10, 10, 277, 190) ;
         pdf.save('MYPdf.pdf'); // Generated PDF   
-        window.close() ; 
       });  
   }
 
-  ngOnInit() {
-    //if we are consultant or applicant we don't have the same information so we load the form that match with the role
+  ngOnInit(){
     let formItemsJSON = require('../resources/formItems.json');
     this.formItems = formItemsJSON["candidateFormItems"];
-    this.initializeView(); 
+    this.initializeView() ; 
   }
 
   initializeView(){
