@@ -1,21 +1,80 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="currentSheetInfo">
+  <p> {{ currentPerson.name | titlecase }} {{ currentPerson.surname | titlecase }} ({{ translate(currentPerson.role) }})</p>
 
-<router-outlet></router-outlet>
+  <input (blur)="checkIfNameEmpty($event)" onkeypress="return (this.innerText.length <= 30)" class="skillsSheetNameDiv"
+    maxlength="30" [ngModel]="currentSkillsSheet.name">
+    <button class="button_save" mat-raised-button (click)="onSubmitForm()">Enregistrer la fiche</button>
+</div>
+
+<div>
+  
+  <div class="grid-container">
+    <div class="infoForm">
+      <mat-form-field *ngFor="let item of formItems; let index = index;">
+        <input matInput name="item.label" placeholder={{item.label}} [type]="item.type" [(ngModel)]="item.model"
+          [disabled]="isPersonDataDisabled">
+      </mat-form-field>
+
+      <button mat-icon-button class="editButton" (click)="editPerson()" [hidden]="isEditButtonHidden">
+        <mat-icon class="editIcon">edit</mat-icon>
+      </button>
+      <div>
+        <button mat-icon-button class="savePersonButton" (click)="savePerson()" [hidden]="!isEditButtonHidden">
+          <mat-icon class="savePersonIcon">check</mat-icon>
+        </button>
+        <button mat-icon-button class="cancelButton" (click)="cancelEditPerson()" [hidden]="!isEditButtonHidden">
+          <mat-icon class="cancelIcon">close</mat-icon>
+        </button>
+      </div>
+
+      <app-array-skills-update [displayedColumns]="lastModifDisplayedColumns" [dataSource]="versionsArray"
+        [headerRowHidden]="headerRowHiddenModif"></app-array-skills-update>
+
+      <mat-form-field style="margin-top: 2%;">
+        <mat-label>Avis</mat-label>
+        <mat-select [(ngModel)]="avis">
+          <mat-option value="+++">+++</mat-option>
+          <mat-option value="++">++</mat-option>
+          <mat-option value="+">+</mat-option>
+          <mat-option value="-">-</mat-option>
+          <mat-option value="--">--</mat-option>
+          <mat-option value="---">---</mat-option>
+          <mat-option value="NOK">NOK</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput placeholder="Commentaire" maxlength="110"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="skillsArrays">
+      <app-array-skills class="skillsArray"
+        [displayedColumns]="skillsDisplayedColumns"
+        [dataSourceArray]="skillsArray"
+        [headerRowHidden]="headerRowHiddenSkills"
+        datatype="skills"
+        [dataSource]="skillsArrayDataSource"
+        (skillsEvent)="updateChartSkills($event)"></app-array-skills>
+      <app-array-skills class="softSkillsArray"
+        [displayedColumns]="softSkillsDisplayedColumns"
+        [dataSourceArray]="softSkillsArray"
+        [headerRowHidden]="headerRowHiddenSkills"
+        datatype="softSkills"
+        [dataSource]="softSkillsArrayDataSource"
+        (skillsEvent)="updateChartSoftSkills($event)"></app-array-skills>
+    </div>
+
+
+    <div class="matrix">
+      <div class="chart-container">
+        <canvas id="canvasSkills"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="canvasSoftSkills"></canvas>
+      </div>
+    </div>
+
+
+  </div>
+</div>
