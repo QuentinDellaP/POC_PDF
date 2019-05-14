@@ -1,4 +1,4 @@
-<div id="contentToConvert">
+<kendo-pdf-export #pdf paperSize="A4" margin="2cm">
   <div class="currentSheetInfo">
     <p> {{ currentPerson.name | titlecase }} {{ currentPerson.surname | titlecase }}
       ({{ translate(currentPerson.role) }})</p>
@@ -67,7 +67,9 @@
         <canvas id="canvasSoftSkills"></canvas>
       </div>
     </div>
-
-
   </div>
-</div>
+</kendo-pdf-export>
+
+<button kendo-button (click)="pdf.saveAs('invoice.pdf')">
+  Save As PDF...
+</button>
