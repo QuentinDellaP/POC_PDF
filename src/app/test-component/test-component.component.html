@@ -1,4 +1,4 @@
-<kendo-pdf-export #pdf paperSize="A4" margin="2cm">
+<kendo-pdf-export #pdf paperSize="A4" [landscape]="true" [scale]="0.6">
   <div class="currentSheetInfo">
     <p> {{ currentPerson.name | titlecase }} {{ currentPerson.surname | titlecase }}
       ({{ translate(currentPerson.role) }})</p>

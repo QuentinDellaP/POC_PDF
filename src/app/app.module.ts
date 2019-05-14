@@ -9,6 +9,8 @@ import { DemoMaterialModule } from './material-modules';
 import { FormsModule } from '@angular/forms';
 import { TestComponentComponent } from './test-component/test-component.component';
 import { SkillsFormsComponent } from './skills-forms/skills-forms.component';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { SkillsFormsComponent } from './skills-forms/skills-forms.component';
     AppRoutingModule,
     DemoMaterialModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    PDFExportModule
   ],
   providers: [],
   entryComponents: [TestComponentComponent],

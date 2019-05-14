@@ -6,9 +6,6 @@ import { Chart } from 'chart.js';
 import { Skills } from '../models/skills';
 import { TestComponentComponent } from '../test-component/test-component.component'
 
-import * as jspdf from 'jspdf';  
-import html2canvas from 'html2canvas';  
-
 @Component({
   selector: 'app-skills-forms',
   templateUrl: './skills-forms.component.html',
