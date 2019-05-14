@@ -1,20 +1,21 @@
-import { Component, ComponentFactoryResolver, ViewContainerRef, ViewChild, ComponentRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { SkillGraduated, SkillsSheet, Skill } from './models/skillsSheet';
-import { Person, PersonRole } from './models/person';
+import { SkillGraduated, SkillsSheet, Skill } from '../models/skillsSheet';
+import { Person, PersonRole } from '../models/person';
+import { Skills } from '../models/skills';
 import { Chart } from 'chart.js';
-import { Skills } from './models/skills';
-import { TestComponentComponent } from './test-component/test-component.component'
 
 import * as jspdf from 'jspdf';  
-import html2canvas from 'html2canvas';  
+import html2canvas from 'html2canvas'; 
+
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-test-component',
+  templateUrl: './test-component.component.html',
+  styleUrls: ['./test-component.component.scss']
 })
-export class AppComponent {
+export class TestComponentComponent implements OnInit,AfterViewInit {
+
   versionsArray = new MatTableDataSource();
   lastModifDisplayedColumns: string[] = ['manager', 'date'];
 
@@ -71,12 +72,35 @@ export class AppComponent {
   componentRef: any ;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver){
+    let formItemsJSON = require('../resources/formItems.json');
+    this.formItems = formItemsJSON["candidateFormItems"];
+  }
 
+  ngAfterViewInit(){
+    this.createPDF() ; 
+  }
+
+  createPDF(){
+      var data = document.getElementById("contentToConvert") ; 
+      html2canvas(data).then(canvas => {  
+        // Few necessary setting options  
+        var imgWidth = 208;   
+        var pageHeight = 295;    
+        var imgHeight = canvas.height * imgWidth / canvas.width;  
+        var heightLeft = imgHeight;  
+    
+        const contentDataURL = canvas.toDataURL('image/png')  
+        let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+        var position = 0;  
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
+        pdf.save('MYPdf.pdf'); // Generated PDF   
+        window.close() ; 
+      });  
   }
 
   ngOnInit() {
     //if we are consultant or applicant we don't have the same information so we load the form that match with the role
-    let formItemsJSON = require('./resources/formItems.json');
+    let formItemsJSON = require('../resources/formItems.json');
     this.formItems = formItemsJSON["candidateFormItems"];
     this.initializeView(); 
   }
@@ -122,10 +146,6 @@ export class AppComponent {
    */
   translate(roleName) {
     return roleName.toLowerCase() === 'applicant' ? 'Candidat' : 'Consultant';
-  }
-
-  savePDF(){
-    window.open('/test', 'window name', 'settings')
   }
 
 
@@ -289,7 +309,4 @@ export class AppComponent {
     return formattedLabels;
   }
 
-
-
-     
 }

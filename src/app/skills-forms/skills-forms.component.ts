@@ -1,20 +1,21 @@
-import { Component, ComponentFactoryResolver, ViewContainerRef, ViewChild, ComponentRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewContainerRef, ViewChild, ComponentRef, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { SkillGraduated, SkillsSheet, Skill } from './models/skillsSheet';
-import { Person, PersonRole } from './models/person';
+import { SkillGraduated, SkillsSheet, Skill } from '../models/skillsSheet';
+import { Person, PersonRole } from '../models/person';
 import { Chart } from 'chart.js';
-import { Skills } from './models/skills';
-import { TestComponentComponent } from './test-component/test-component.component'
+import { Skills } from '../models/skills';
+import { TestComponentComponent } from '../test-component/test-component.component'
 
 import * as jspdf from 'jspdf';  
 import html2canvas from 'html2canvas';  
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-skills-forms',
+  templateUrl: './skills-forms.component.html',
+  styleUrls: ['./skills-forms.component.scss']
 })
-export class AppComponent {
+export class SkillsFormsComponent implements OnInit {
+
   versionsArray = new MatTableDataSource();
   lastModifDisplayedColumns: string[] = ['manager', 'date'];
 
@@ -76,7 +77,7 @@ export class AppComponent {
 
   ngOnInit() {
     //if we are consultant or applicant we don't have the same information so we load the form that match with the role
-    let formItemsJSON = require('./resources/formItems.json');
+    let formItemsJSON = require('../resources/formItems.json');
     this.formItems = formItemsJSON["candidateFormItems"];
     this.initializeView(); 
   }
@@ -125,7 +126,7 @@ export class AppComponent {
   }
 
   savePDF(){
-    window.open('/test', 'window name', 'settings')
+    window.open('/test', "_blank")
   }
 
 
@@ -290,6 +291,4 @@ export class AppComponent {
   }
 
 
-
-     
 }
