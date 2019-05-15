@@ -7,12 +7,14 @@ import { ArraySkillsComponent } from './array-skills/array-skills.component';
 import { ArraySkillsUpdateComponent } from './array-skills-update/array-skills-update.component';
 import { DemoMaterialModule } from './material-modules';
 import { FormsModule } from '@angular/forms';
+import { KendoTestComponent } from './kendo-test/kendo-test.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ArraySkillsComponent,
-    ArraySkillsUpdateComponent
+    ArraySkillsUpdateComponent,
+    KendoTestComponent
   ],
   imports: [
     BrowserModule,

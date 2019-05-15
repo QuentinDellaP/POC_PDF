@@ -7,8 +7,8 @@ import { Skills } from './models/skills';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './kendo-test/kendo-test.component.html',
+  styleUrls: ['./kendo-test/kendo-test.component.scss']
 })
 export class AppComponent {
   versionsArray = new MatTableDataSource();

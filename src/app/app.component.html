@@ -1,13 +1,14 @@
 <div class="currentSheetInfo">
-  <p> {{ currentPerson.name | titlecase }} {{ currentPerson.surname | titlecase }} ({{ translate(currentPerson.role) }})</p>
+  <p> {{ currentPerson.name | titlecase }} {{ currentPerson.surname | titlecase }} ({{ translate(currentPerson.role) }})
+  </p>
 
   <input (blur)="checkIfNameEmpty($event)" onkeypress="return (this.innerText.length <= 30)" class="skillsSheetNameDiv"
     maxlength="30" [ngModel]="currentSkillsSheet.name">
-    <button class="button_save" mat-raised-button (click)="onSubmitForm()">Enregistrer la fiche</button>
+  <button class="button_save" mat-raised-button (click)="onSubmitForm()">Enregistrer la fiche</button>
 </div>
 
 <div>
-  
+
   <div class="grid-container">
     <div class="infoForm">
       <mat-form-field *ngFor="let item of formItems; let index = index;">
@@ -49,20 +50,12 @@
     </div>
 
     <div class="skillsArrays">
-      <app-array-skills class="skillsArray"
-        [displayedColumns]="skillsDisplayedColumns"
-        [dataSourceArray]="skillsArray"
-        [headerRowHidden]="headerRowHiddenSkills"
-        datatype="skills"
-        [dataSource]="skillsArrayDataSource"
+      <app-array-skills class="skillsArray" [displayedColumns]="skillsDisplayedColumns" [dataSourceArray]="skillsArray"
+        [headerRowHidden]="headerRowHiddenSkills" datatype="skills" [dataSource]="skillsArrayDataSource"
         (skillsEvent)="updateChartSkills($event)"></app-array-skills>
-      <app-array-skills class="softSkillsArray"
-        [displayedColumns]="softSkillsDisplayedColumns"
-        [dataSourceArray]="softSkillsArray"
-        [headerRowHidden]="headerRowHiddenSkills"
-        datatype="softSkills"
-        [dataSource]="softSkillsArrayDataSource"
-        (skillsEvent)="updateChartSoftSkills($event)"></app-array-skills>
+      <app-array-skills class="softSkillsArray" [displayedColumns]="softSkillsDisplayedColumns"
+        [dataSourceArray]="softSkillsArray" [headerRowHidden]="headerRowHiddenSkills" datatype="softSkills"
+        [dataSource]="softSkillsArrayDataSource" (skillsEvent)="updateChartSoftSkills($event)"></app-array-skills>
     </div>
 
 
@@ -75,6 +68,11 @@
       </div>
     </div>
 
+    <div class="example-config">
+      <button kendo-button (click)="pdf.saveAs('invoice.pdf')">
+        Save As PDF...
+      </button>
+    </div>
 
   </div>
 </div>
